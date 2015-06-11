@@ -1,0 +1,198 @@
+# depslib dependency file v1.0
+1211200845 source:c:\users\godvalve\desktop\will\programming\opengl\opengl cb basecode\main.c
+	<windows.h>
+	<gl/gl.h>
+
+1273390526 source:c:\users\godvalve\desktop\opengl_cb_basecode\main.c
+	<windows.h>
+	<gl/gl.h>
+	<gl/glu.h>
+
+1273780130 source:c:\users\godvalve\desktop\cb_challengeframework_v1.2\cb_challengeframework_v1.2\main.c
+	<windows.h>
+	<gl/gl.h>
+	<gl/glu.h>
+	"resource.h"
+
+1273712192 c:\users\godvalve\desktop\cb_challengeframework_v1.2\cb_challengeframework_v1.2\resource.h
+
+1273712192 source:c:\users\godvalve\desktop\cb_challengeframework_v1.2\cb_challengeframework_v1.2\resoucelocker.rc
+	<windows.h>
+	<commctrl.h>
+	<richedit.h>
+	"resource.h"
+
+1273780194 source:c:\users\movieplayer\desktop\cb_challengeframework_v1.3\main.c
+	<windows.h>
+	<gl/gl.h>
+	<gl/glu.h>
+	"resource.h"
+
+1273794327 c:\users\movieplayer\desktop\cb_challengeframework_v1.3\resource.h
+
+1273794327 source:c:\users\movieplayer\desktop\cb_challengeframework_v1.3\resourcelocker.rc
+	<windows.h>
+	<commctrl.h>
+	<richedit.h>
+	"resource.h"
+
+1273795225 source:c:\users\godvalve\desktop\cb_challengeframework_v1.3\main.c
+	<windows.h>
+	<gl/gl.h>
+	<gl/glu.h>
+	"resource.h"
+
+1273913244 c:\users\godvalve\desktop\cb_challengeframework_v1.3\resource.h
+
+1273913244 source:c:\users\godvalve\desktop\cb_challengeframework_v1.3\resourcelocker.rc
+	<windows.h>
+	<commctrl.h>
+	<richedit.h>
+	"resource.h"
+
+1273795224 source:c:\users\godvalve\desktop\cb_challengeframework_v1.3\cb_challengeframework_v1.3\main.c
+	<windows.h>
+	<gl/gl.h>
+	<gl/glu.h>
+	"resource.h"
+
+1273913245 c:\users\godvalve\desktop\cb_challengeframework_v1.3\cb_challengeframework_v1.3\resource.h
+
+1273913245 source:c:\users\godvalve\desktop\cb_challengeframework_v1.3\cb_challengeframework_v1.3\resourcelocker.rc
+	<windows.h>
+	<commctrl.h>
+	<richedit.h>
+	"resource.h"
+
+1273969349 source:c:\users\godvalve\desktop\cb_challengeframework_v1.3\cb_challengeframework_v1.3\main.cpp
+	<windows.h>
+	<gl/gl.h>
+	<gl/glu.h>
+	"resource.h"
+
+1288593704 source:c:\users\godvalve\desktop\cb_challengeframework_v1.3\main.cpp
+	<windows.h>
+	<fstream>
+	<iostream>
+	<stdio.h>
+	<vector>
+	<string>
+	<gl/gl.h>
+	<gl/glu.h>
+	"wglext.h"
+	"glext.h"
+	"targa.h"
+	"resource.h"
+
+1233022908 c:\users\godvalve\desktop\cb_challengeframework_v1.3\wglext.h
+	<windows.h>
+
+1233022957 c:\users\godvalve\desktop\cb_challengeframework_v1.3\glext.h
+	<windows.h>
+	<stddef.h>
+	<inttypes.h>
+	<inttypes.h>
+	<inttypes.h>
+	<stdint.h>
+	<stdint.h>
+	<inttypes.h>
+
+1246251446 c:\users\godvalve\desktop\cb_challengeframework_v1.3\targa.h
+	<vector>
+	<string>
+	<fstream>
+
+1246251446 source:c:\users\godvalve\desktop\cb_challengeframework_v1.3\targa.cpp
+	<fstream>
+	<cassert>
+	<iostream>
+	"targa.h"
+
+1273913244 source:c:\users\godvalve\desktop\cb_challengeframework_v2.0\cb_challengeframework_v2.0\resourcelocker.rc
+	<windows.h>
+	<commctrl.h>
+	<richedit.h>
+	"resource.h"
+
+1273913244 c:\users\godvalve\desktop\cb_challengeframework_v2.0\cb_challengeframework_v2.0\resource.h
+
+1246251446 source:c:\users\godvalve\desktop\cb_challengeframework_v2.0\cb_challengeframework_v2.0\targa.cpp
+	<fstream>
+	<cassert>
+	<iostream>
+	"targa.h"
+
+1246251446 c:\users\godvalve\desktop\cb_challengeframework_v2.0\cb_challengeframework_v2.0\targa.h
+	<vector>
+	<string>
+	<fstream>
+
+1433568509 source:c:\users\godvalve\desktop\cb_challengeframework_v2.0\cb_challengeframework_v2.0\main.cpp
+	<windows.h>
+	<fstream>
+	<iostream>
+	<stdio.h>
+	<vector>
+	<string>
+	<GL/glew.h>
+	<GL/wglew.h>
+	"targa.h"
+	"resource.h"
+
+1233022908 c:\users\godvalve\desktop\cb_challengeframework_v2.0\cb_challengeframework_v2.0\wglext.h
+	<windows.h>
+
+1233022956 c:\users\godvalve\desktop\cb_challengeframework_v2.0\cb_challengeframework_v2.0\glext.h
+	<windows.h>
+	<stddef.h>
+	<inttypes.h>
+	<inttypes.h>
+	<inttypes.h>
+	<stdint.h>
+	<stdint.h>
+	<inttypes.h>
+
+1273913244 source:c:\users\godvalve\desktop\cb_challengeframework_v3.3\resourcelocker.rc
+	<windows.h>
+	<commctrl.h>
+	<richedit.h>
+	"resource.h"
+
+1273913244 c:\users\godvalve\desktop\cb_challengeframework_v3.3\resource.h
+
+1246251446 source:c:\users\godvalve\desktop\cb_challengeframework_v3.3\targa.cpp
+	<fstream>
+	<cassert>
+	<iostream>
+	"targa.h"
+
+1246251446 c:\users\godvalve\desktop\cb_challengeframework_v3.3\targa.h
+	<vector>
+	<string>
+	<fstream>
+
+1433995102 source:c:\users\godvalve\desktop\cb_challengeframework_v3.3\main.cpp
+	<windows.h>
+	<iostream>
+	<stdio.h>
+	<GL/glew.h>
+	<GL/wglew.h>
+	<GL/glext.h>
+	<glm/glm.hpp>
+	<glm/gtc/matrix_transform.hpp>
+	<glm/gtx/transform2.hpp>
+	"resource.h"
+	"Shader.h"
+
+1433900989 source:c:\users\godvalve\desktop\cb_challengeframework_v3.3\src\shader.cpp
+	"Shader.h"
+
+1433819556 c:\users\godvalve\desktop\cb_challengeframework_v3.3\include\shader.h
+	<windows.h>
+	<fstream>
+	<iostream>
+	<vector>
+	<string>
+	<GL/glew.h>
+	<GL/glext.h>
+

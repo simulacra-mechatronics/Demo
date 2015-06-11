@@ -1,0 +1,14 @@
+-----------------------------
+| The Demo Challenge
+| http://demochronicles.mccolm.org/compete.php
+-----------------------------
+Info File
+
+Replace the following information with your own
+
+Author:
+Email:
+Homepage:
+Visual Effect's Name:
+Description:
+
