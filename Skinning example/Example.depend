@@ -1,0 +1,40 @@
+# depslib dependency file v1.0
+1245729659 source:c:\users\godvalve\desktop\skinning_example\skinning example\res.rc
+	"resource.h"
+	<windows.h>
+
+1245728392 c:\users\godvalve\desktop\skinning_example\skinning example\resource.h
+
+1193981708 source:c:\users\godvalve\desktop\skinning_example\skinning example\manager.cpp
+	<windows.h>
+	<stdio.h>
+	"res.h"
+
+1193980614 c:\users\godvalve\desktop\skinning_example\skinning example\res.h
+
+1245786090 source:e:\user folders\will\programming\skinning_example\skinning example\manager.cpp
+	<windows.h>
+	<stdio.h>
+	"res.h"
+
+1434077647 e:\user folders\will\programming\skinning_example\skinning example\res.h
+
+1245787079 source:e:\user folders\will\programming\skinning_example\skinning example\res.rc
+	"resource.h"
+	<windows.h>
+
+1245787054 e:\user folders\will\programming\skinning_example\skinning example\resource.h
+
+1434084326 source:e:\user folders\will\programming\skinning_example\skinning example\skinning example\manager.cpp
+	<windows.h>
+	<stdio.h>
+	"res.h"
+
+1434077647 e:\user folders\will\programming\skinning_example\skinning example\skinning example\res.h
+
+1434084227 source:e:\user folders\will\programming\skinning_example\skinning example\skinning example\res.rc
+	"resource.h"
+	<windows.h>
+
+1245787054 e:\user folders\will\programming\skinning_example\skinning example\skinning example\resource.h
+
