@@ -196,3 +196,47 @@
 	<GL/glew.h>
 	<GL/glext.h>
 
+1434318678 source:c:\users\godvalve\documents\github\demo\main.cpp
+	<windows.h>
+	<iostream>
+	<stdio.h>
+	<GL/glew.h>
+	<GL/wglew.h>
+	<GL/glext.h>
+	<glm/glm.hpp>
+	<glm/gtc/matrix_transform.hpp>
+	<glm/gtx/transform2.hpp>
+	"resource.h"
+	"Shader.h"
+
+1434257482 c:\users\godvalve\documents\github\demo\resource.h
+
+1433819556 c:\users\godvalve\documents\github\demo\include\shader.h
+	<windows.h>
+	<fstream>
+	<iostream>
+	<vector>
+	<string>
+	<GL/glew.h>
+	<GL/glext.h>
+
+1434257482 source:c:\users\godvalve\documents\github\demo\resourcelocker.rc
+	<windows.h>
+	<commctrl.h>
+	<richedit.h>
+	"resource.h"
+
+1433900989 source:c:\users\godvalve\documents\github\demo\src\shader.cpp
+	"Shader.h"
+
+1246251446 source:c:\users\godvalve\documents\github\demo\targa.cpp
+	<fstream>
+	<cassert>
+	<iostream>
+	"targa.h"
+
+1246251446 c:\users\godvalve\documents\github\demo\targa.h
+	<vector>
+	<string>
+	<fstream>
+

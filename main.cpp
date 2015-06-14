@@ -46,6 +46,9 @@ float fAspectRatio;
 float fFieldOfView;
 Shader *demoShader;         // Declare a Shader object
 
+HBITMAP hSkinMBmp = NULL;
+int i = 0;
+
 LARGE_INTEGER TimerFreq;	// Timer Frequency.
 LARGE_INTEGER TimeStart;	// Time of start.
 LARGE_INTEGER TimeCur;		// Current time.
@@ -75,9 +78,21 @@ void RenderNextDemoFrame();
 void ChangeDisplayMode();
 void RestoreDisplayMode();
 void createSquare();
+void DestroyCaption(HWND hwnd, int windowWidth, int windowHeight);
+
+// Declare our function
+typedef BOOL (WINAPI *lpfnSetLayeredWindowAttributes)(HWND hWnd, COLORREF crKey, BYTE bAlpha, DWORD dwFlags);
+lpfnSetLayeredWindowAttributes SetLayeredWindowAttributes;
 
 
 #define BUFFER_OFFSET(i) ((char*)NULL + (i))
+#define LWA_COLORKEY            0x00000001
+#define LWA_ALPHA               0x00000002
+
+#define bitmapHeight            463
+#define bitmapWidth             738
+
+#define g_ColourKey             0xFF00FF // 0,0,255(pink) in hex RGB
 
 //--------------------------------------------------------------------------------------
 // Entry point to the program. Initializes everything and goes into a message processing
@@ -99,6 +114,17 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
     // Only shows on the console window if in debug build. Use release mode or change build options to remove console window.
     std::cout << "OpenGL Demo Framework version 3.3 (June 05, 2015)\n";
+
+    // Load our bitmap
+    hSkinMBmp = LoadBitmap(hInstance, MAKEINTRESOURCE(IDB_LauncherBackground));
+    if(hSkinMBmp == NULL)
+        std::cerr << "Could not load loader skin bitmap" << std::endl;
+
+    // import function to make windows transparent
+    HMODULE hUser32 = GetModuleHandle(("USER32.DLL"));
+    SetLayeredWindowAttributes = (lpfnSetLayeredWindowAttributes)GetProcAddress(hUser32, "SetLayeredWindowAttributes");
+    if(SetLayeredWindowAttributes == NULL)
+        MessageBox(0, "Error, cannot load window transparency, REASON: Could not load User32.DLL", "Error!", MB_ICONSTOP | MB_OK);
 
     /* Display the Demo Challenge Launcher to get user's preferences for fullscreen and resolution */
     if(DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_DemoLauncher), HWND_DESKTOP, DlgProc, 0) == FALSE)
@@ -341,6 +367,17 @@ BOOL CALLBACK DlgProc (HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
             ZeroMemory(&dmi, sizeof(dmi));
             dmi.dmSize = sizeof(dmi);
 
+            if(SetLayeredWindowAttributes != NULL)
+            {
+                if(i < 1) {
+                    DestroyCaption(hDlg,bitmapWidth,bitmapHeight);
+                    i++;
+                }
+
+              SetWindowLong(hDlg, GWL_EXSTYLE, GetWindowLong(hDlg, GWL_EXSTYLE) | WS_EX_LAYERED);
+              SetLayeredWindowAttributes(hDlg, g_ColourKey, 0, LWA_COLORKEY);
+            }
+
             while(EnumDisplayDevices (NULL, iDevNum++, &ddi, 0))
             {
                 while(EnumDisplaySettings (ddi.DeviceName, iModeNum++, &dmi))
@@ -368,9 +405,9 @@ BOOL CALLBACK DlgProc (HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
             SendMessage(hAspectRatioList, LB_INSERTSTRING,(WPARAM)-1,(LPARAM)"16:10");
             SendMessage(hAspectRatioList, LB_SETCURSEL, 0, 0);
 
-            return TRUE;
-        }
         break;
+        }
+
 
         case WM_COMMAND:
         {
@@ -465,6 +502,21 @@ BOOL CALLBACK DlgProc (HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
             }
         }
         break;
+
+// draw our bitmap
+        case WM_PAINT:
+        {
+            BITMAP bm;
+            PAINTSTRUCT ps;
+            HDC hdc = BeginPaint(hDlg, &ps);
+            HDC dcSkin = CreateCompatibleDC(hdc);
+            GetObject(hSkinMBmp, sizeof(bm), &bm);
+            SelectObject(dcSkin, hSkinMBmp);
+            BitBlt(hdc, 0,0,bitmapWidth,bitmapHeight, dcSkin, 0, 0, SRCCOPY);
+            DeleteDC(dcSkin);
+            EndPaint(hDlg, &ps);
+            break;
+        }
 
         /* Moves the window when the user clicks anywhere not covered by a control. HTCAPTION specifies */
         /* that all button clicks originate in the title bar area - even when the window has no title bar. */
@@ -734,4 +786,16 @@ void createSquare() {
     glGenBuffers(1, &colorBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, colorBuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(g_color_buffer_data), g_color_buffer_data, GL_STATIC_DRAW);
+}
+
+
+// Destroy our windows caption
+void DestroyCaption(HWND hwnd, int windowWidth, int windowHeight)
+{
+ DWORD dwStyle = GetWindowLong(hwnd, GWL_STYLE);
+ dwStyle &= ~(WS_CAPTION|WS_SIZEBOX);
+
+ SetWindowLong(hwnd, GWL_STYLE, dwStyle);
+ InvalidateRect(hwnd, NULL, true);
+ SetWindowPos(hwnd, NULL, 0,0,windowWidth, windowHeight, SWP_NOMOVE | SWP_NOZORDER);
 }

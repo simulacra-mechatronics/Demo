@@ -38,3 +38,16 @@
 
 1245787054 e:\user folders\will\programming\skinning_example\skinning example\skinning example\resource.h
 
+1434085377 source:c:\users\godvalve\documents\github\demo\skinning example\manager.cpp
+	<windows.h>
+	<stdio.h>
+	"res.h"
+
+1434077647 c:\users\godvalve\documents\github\demo\skinning example\res.h
+
+1434084227 source:c:\users\godvalve\documents\github\demo\skinning example\res.rc
+	"resource.h"
+	<windows.h>
+
+1245787054 c:\users\godvalve\documents\github\demo\skinning example\resource.h
+

@@ -3,9 +3,8 @@
 #endif
 
 #define IDD_DemoLauncher                        103
-#define IDB_LauncherLogo                        105
 #define IDI_SMICON                              112
-#define IDC_LauncherLogo                        1002
+#define IDB_LauncherBackground                  114
 #define IDLAUNCH                                1003
 #define IDEXIT                                  1004
 #define IDC_RESOLUTION                          1007
