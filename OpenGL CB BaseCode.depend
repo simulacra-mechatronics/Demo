@@ -209,7 +209,7 @@
 	"resource.h"
 	"Shader.h"
 
-1434257482 c:\users\godvalve\documents\github\demo\resource.h
+1434328334 c:\users\godvalve\documents\github\demo\resource.h
 
 1433819556 c:\users\godvalve\documents\github\demo\include\shader.h
 	<windows.h>
@@ -220,7 +220,7 @@
 	<GL/glew.h>
 	<GL/glext.h>
 
-1434257482 source:c:\users\godvalve\documents\github\demo\resourcelocker.rc
+1434328334 source:c:\users\godvalve\documents\github\demo\resourcelocker.rc
 	<windows.h>
 	<commctrl.h>
 	<richedit.h>
