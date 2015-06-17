@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1434543433 source:c:\users\william.mccolm\documents\github\demo\dialog test\main.cpp
+	<windows.h>
+	"resource.h"
+
+1434543433 c:\users\william.mccolm\documents\github\demo\dialog test\resource.h
+
+1434543433 source:c:\users\william.mccolm\documents\github\demo\dialog test\resource.rc
+	<windows.h>
+	<commctrl.h>
+	<richedit.h>
+	"resource.h"
+

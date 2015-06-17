@@ -23,3 +23,15 @@
 	<richedit.h>
 	"resource.h"
 
+1434543433 source:c:\users\william.mccolm\documents\github\demo\about3 (petzold)\main.cpp
+	<windows.h>
+	"resource.h"
+
+1434543433 c:\users\william.mccolm\documents\github\demo\about3 (petzold)\resource.h
+
+1434543433 source:c:\users\william.mccolm\documents\github\demo\about3 (petzold)\resource.rc
+	<windows.h>
+	<commctrl.h>
+	<richedit.h>
+	"resource.h"
+

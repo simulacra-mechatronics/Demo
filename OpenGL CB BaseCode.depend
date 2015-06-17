@@ -240,3 +240,47 @@
 	<string>
 	<fstream>
 
+1434543433 source:c:\users\william.mccolm\documents\github\demo\main.cpp
+	<windows.h>
+	<iostream>
+	<stdio.h>
+	<GL/glew.h>
+	<GL/wglew.h>
+	<GL/glext.h>
+	<glm/glm.hpp>
+	<glm/gtc/matrix_transform.hpp>
+	<glm/gtx/transform2.hpp>
+	"resource.h"
+	"Shader.h"
+
+1434543433 c:\users\william.mccolm\documents\github\demo\resource.h
+
+1434111963 c:\users\william.mccolm\documents\github\demo\include\shader.h
+	<windows.h>
+	<fstream>
+	<iostream>
+	<vector>
+	<string>
+	<GL/glew.h>
+	<GL/glext.h>
+
+1434543433 source:c:\users\william.mccolm\documents\github\demo\resourcelocker.rc
+	<windows.h>
+	<commctrl.h>
+	<richedit.h>
+	"resource.h"
+
+1434111963 source:c:\users\william.mccolm\documents\github\demo\src\shader.cpp
+	"Shader.h"
+
+1434111963 source:c:\users\william.mccolm\documents\github\demo\targa.cpp
+	<fstream>
+	<cassert>
+	<iostream>
+	"targa.h"
+
+1434111963 c:\users\william.mccolm\documents\github\demo\targa.h
+	<vector>
+	<string>
+	<fstream>
+
