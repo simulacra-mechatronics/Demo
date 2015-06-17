@@ -196,7 +196,7 @@
 	<GL/glew.h>
 	<GL/glext.h>
 
-1434318678 source:c:\users\godvalve\documents\github\demo\main.cpp
+1434431272 source:c:\users\godvalve\documents\github\demo\main.cpp
 	<windows.h>
 	<iostream>
 	<stdio.h>
@@ -209,7 +209,7 @@
 	"resource.h"
 	"Shader.h"
 
-1434328334 c:\users\godvalve\documents\github\demo\resource.h
+1434428537 c:\users\godvalve\documents\github\demo\resource.h
 
 1433819556 c:\users\godvalve\documents\github\demo\include\shader.h
 	<windows.h>
@@ -220,7 +220,7 @@
 	<GL/glew.h>
 	<GL/glext.h>
 
-1434328334 source:c:\users\godvalve\documents\github\demo\resourcelocker.rc
+1434427477 source:c:\users\godvalve\documents\github\demo\resourcelocker.rc
 	<windows.h>
 	<commctrl.h>
 	<richedit.h>

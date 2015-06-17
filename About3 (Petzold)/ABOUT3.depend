@@ -1,0 +1,25 @@
+# depslib dependency file v1.0
+1434515296 source:c:\users\godvalve\desktop\test2\main.cpp
+	<windows.h>
+	"resource.h"
+
+1434515710 c:\users\godvalve\desktop\test2\resource.h
+
+1434515658 source:c:\users\godvalve\desktop\test2\resource.rc
+	<windows.h>
+	<commctrl.h>
+	<richedit.h>
+	"resource.h"
+
+1434515296 source:c:\users\godvalve\desktop\about3 (petzold)\main.cpp
+	<windows.h>
+	"resource.h"
+
+1434515710 c:\users\godvalve\desktop\about3 (petzold)\resource.h
+
+1434515658 source:c:\users\godvalve\desktop\about3 (petzold)\resource.rc
+	<windows.h>
+	<commctrl.h>
+	<richedit.h>
+	"resource.h"
+

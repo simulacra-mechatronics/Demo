@@ -47,7 +47,9 @@ float fFieldOfView;
 Shader *demoShader;         // Declare a Shader object
 
 HBITMAP hSkinMBmp = NULL;
+HBITMAP hSkinLaunchBtnBmp = NULL;
 int i = 0;
+int j = 0;
 
 LARGE_INTEGER TimerFreq;	// Timer Frequency.
 LARGE_INTEGER TimeStart;	// Time of start.
@@ -63,6 +65,7 @@ GLuint mvpMatrixLocationInShader;
 GLuint vertexBuffer;        // This will identify our vertex buffer
 GLuint colorBuffer;         // Our color buffer
 
+HWND hLaunchButton;
 
 //--------------------------------------------------------------------------------------
 // Forward declarations
@@ -92,6 +95,9 @@ lpfnSetLayeredWindowAttributes SetLayeredWindowAttributes;
 #define bitmapHeight            463
 #define bitmapWidth             738
 
+#define buttonbitmapHeight            61
+#define buttonbitmapWidth             100
+
 #define g_ColourKey             0xFF00FF // 0,0,255(pink) in hex RGB
 
 //--------------------------------------------------------------------------------------
@@ -119,6 +125,10 @@ int WINAPI WinMain(HINSTANCE hInstance,
     hSkinMBmp = LoadBitmap(hInstance, MAKEINTRESOURCE(IDB_LauncherBackground));
     if(hSkinMBmp == NULL)
         std::cerr << "Could not load loader skin bitmap" << std::endl;
+
+    hSkinLaunchBtnBmp = LoadBitmap(hInstance, MAKEINTRESOURCE(IDB_LAUNCH));
+    if(hSkinLaunchBtnBmp == NULL)
+        std::cerr << "Could not load launcher button skin bitmap" << std::endl;
 
     // import function to make windows transparent
     HMODULE hUser32 = GetModuleHandle(("USER32.DLL"));
@@ -347,13 +357,69 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 //--------------------------------------------------------------------------------------
 BOOL CALLBACK DlgProc (HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
+    // The struct that WM_DRAWITEM needs:
+	static DRAWITEMSTRUCT* pdis;
+
     switch (message)
     {
+        case WM_DRAWITEM:
+        {
+			// The DRAWITEMSTRUCT struct contains all there is to know
+			// about the owner draw control and what there is to do:
+			pdis = (DRAWITEMSTRUCT*) lParam;
+			// (winuser.h) Maybe you also want to account for pdis->CtlType (ODT_MENU, ODT_LISTBOX, ODT_COMBOBOX, ODT_BUTTON, ODT_STATIC)
+			switch(pdis->CtlID)
+			{
+				case IDC_LaunchButton:
+                {
+
+
+                    BITMAP bitmap;
+
+                    HDC hdcMem = CreateCompatibleDC (pdis->hDC) ;
+                    SelectObject (hdcMem, hSkinLaunchBtnBmp) ;
+
+                    BITMAP bm ;
+                    GetObject (hSkinLaunchBtnBmp, sizeof(BITMAP), &bitmap) ;
+
+                    BitBlt (pdis->hDC, 0, 0, bm.bmWidth, bm.bmHeight, hdcMem, 0, 0, SRCCOPY);
+
+                    break;
+                }
+				// Other case labels if any...
+				default:
+					break;
+			}
+			return(TRUE);
+        }
+        case WM_CREATE:
+        {
+            HINSTANCE hInst = ((LPCREATESTRUCT) lParam)->hInstance;
+            hLaunchButton = CreateWindowEx(0, "BUTTON", "RED", WS_VISIBLE | WS_CHILD | BS_OWNERDRAW, 10, 10, 100, 50, hDlg, (HMENU)IDC_LaunchButton, hInst, NULL);
+            //hLaunchButton = CreateWindow("button", "Exit", BS_PUSHBUTTON|WS_CHILD|WS_VISIBLE, 250, 30, 100, 20, hDlg, (HMENU)IDC_LaunchButton, (HINSTANCE)GetWindowLong(hDlg, GWL_HINSTANCE), NULL);
+            if(hLaunchButton == NULL)
+                std::cerr << "error creating button window";
+
+            if(SetLayeredWindowAttributes != NULL)
+            {
+                if(j < 1) {
+                    DestroyCaption(hLaunchButton,buttonbitmapWidth,buttonbitmapHeight);
+                    j++;
+                }
+
+                SetWindowLong(hLaunchButton, GWL_EXSTYLE, GetWindowLong(hLaunchButton, GWL_EXSTYLE) | WS_EX_LAYERED);
+                SetLayeredWindowAttributes(hLaunchButton, g_ColourKey, 0, LWA_COLORKEY);
+            }
+            break;
+        }
+
+
         case WM_INITDIALOG:
         {
             /* Select fullscreen option by default */
             HWND hCkBxFullscreen = GetDlgItem(hDlg, IDC_FULLSCREEN);
             PostMessage(hCkBxFullscreen, BM_SETCHECK,BST_CHECKED,0);
+
 
             HWND hResolutionList = GetDlgItem(hDlg, IDC_RESOLUTION);
             DWORD iDevNum	= 0;
@@ -503,7 +569,7 @@ BOOL CALLBACK DlgProc (HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
         }
         break;
 
-// draw our bitmap
+        // draw our bitmap
         case WM_PAINT:
         {
             BITMAP bm;
