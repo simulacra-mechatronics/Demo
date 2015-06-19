@@ -11,3 +11,16 @@
 	<richedit.h>
 	"resource.h"
 
+1434685194 source:c:\users\godvalve\documents\github\demo\dialog test\main.cpp
+	<windows.h>
+	<iostream>
+	"resource.h"
+
+1434592559 c:\users\godvalve\documents\github\demo\dialog test\resource.h
+
+1434601656 source:c:\users\godvalve\documents\github\demo\dialog test\resource.rc
+	<windows.h>
+	<commctrl.h>
+	<richedit.h>
+	"resource.h"
+
