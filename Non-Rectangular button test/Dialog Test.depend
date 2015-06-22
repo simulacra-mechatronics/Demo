@@ -26,3 +26,16 @@
 	<richedit.h>
 	"resource.h"
 
+1434999933 source:c:\users\william.mccolm\documents\github\demo\non-rectangular button test\main.cpp
+	<windows.h>
+	<iostream>
+	"resource.h"
+
+1434985245 c:\users\william.mccolm\documents\github\demo\non-rectangular button test\resource.h
+
+1434985245 source:c:\users\william.mccolm\documents\github\demo\non-rectangular button test\resource.rc
+	<windows.h>
+	<commctrl.h>
+	<richedit.h>
+	"resource.h"
+

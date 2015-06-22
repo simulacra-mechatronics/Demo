@@ -15,8 +15,8 @@ static DWORD LWA_COLORKEY  = 0x00000001;   // Use colorKey as the transparency c
 static unsigned int bitmapHeight   = 463;
 static unsigned int bitmapWidth    = 738;
 
-static unsigned int buttonBitmapHeight = 35;
-static unsigned int buttonBitmapWidth  = 93;
+static unsigned int uiRunBtnBitmapHeight = 35;
+static unsigned int uiRunBtnBitmapWidth  = 93;
 
 HBITMAP hSkinMBmp = NULL;
 HBITMAP hBtnSkinRunOut = NULL;
@@ -24,9 +24,10 @@ HBITMAP hSkinLaunchBtnRunOver = NULL;
 HBITMAP hSkinLaunchBtnRunIn = NULL;
 BOOL destroyCaption = false;
 
-static BOOL bMouseOverButton = false;
-static BOOL bMouseInButton = false;
+static BOOL bRunMouseOver = false;
+static BOOL bRunMouseIn = false;
 
+/*
 LRESULT CALLBACK EllipPushWndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     static HDC hdc ;
@@ -60,7 +61,6 @@ LRESULT CALLBACK EllipPushWndProc (HWND hwnd, UINT message, WPARAM wParam, LPARA
     break;
 
     case WM_PAINT :
-        std::cout << "Paint message received" << std::endl;
         HDC dcSkin;
         BITMAP bm;
         PAINTSTRUCT ps;
@@ -68,12 +68,10 @@ LRESULT CALLBACK EllipPushWndProc (HWND hwnd, UINT message, WPARAM wParam, LPARA
         dcSkin = CreateCompatibleDC(hdc);
 
         if(bMouseInButton == true){
-            std::cout << "drawing button down" << std::endl;
             GetObject(hSkinLaunchBtnRunIn, sizeof(bm), &bm);
             SelectObject(dcSkin, hSkinLaunchBtnRunIn);
         }
         else if(bMouseOverButton == true){
-            std::cout << "drawing button over" << std::endl;
             GetObject(hSkinLaunchBtnRunOver, sizeof(bm), &bm);
             SelectObject(dcSkin, hSkinLaunchBtnRunOver);
         }
@@ -98,13 +96,10 @@ LRESULT CALLBACK EllipPushWndProc (HWND hwnd, UINT message, WPARAM wParam, LPARA
 
     return 0;
 
-
     case WM_KEYDOWN:
 
     case WM_LBUTTONDOWN:
     {
-        std::cout << "Trapping left mouse click" << std::endl;
-
         bMouseInButton = true;
         bMouseOverButton = false;
         InvalidateRgn(hwnd, NULL, FALSE);
@@ -116,9 +111,94 @@ LRESULT CALLBACK EllipPushWndProc (HWND hwnd, UINT message, WPARAM wParam, LPARA
 
     return DefWindowProc (hwnd, message, wParam, lParam);
 }
+*/
+
+LRESULT CALLBACK EllipPushWndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+    static HDC hdc ;
+    static HRGN hRunButnRgn;
+
+    switch (message)
+    {
+
+	case WM_LBUTTONDBLCLK:
+        PostMessage(hwnd, WM_LBUTTONDOWN, wParam, lParam);
+        break;
+
+	case WM_MOUSEMOVE:
+	{
+        // check to see if the left mousr button is pressed
+        if(!bRunMouseOver)
+            {
+            bRunMouseOver = TRUE;
+            InvalidateRgn(hwnd, NULL, FALSE);
+            }
+
+        return (0);
+	}
+	break;
+
+    case WM_CREATE:
+        SetWindowPos(hwnd, NULL, 0,0,uiRunBtnBitmapWidth, uiRunBtnBitmapHeight, SWP_NOMOVE | SWP_NOZORDER);
+        hRunButnRgn = CreateRgnFromFile(hBtnSkinRunOut, colorKey);       // For a good explanation of how to use regions: http://win32xplorer.blogspot.ca/2009/09/regions-and-clipping-window-to-custom.html (June 2015)
+        SetWindowRgn(hwnd, hRunButnRgn, true);
+        DeleteObject(hRunButnRgn);
+    break;
+
+    case WM_PAINT :
+        HDC dcSkin;
+        BITMAP bm;
+        PAINTSTRUCT ps;
+        hdc = BeginPaint(hwnd, &ps);
+        dcSkin = CreateCompatibleDC(hdc);
+
+        if(bRunMouseIn == true && bRunMouseOver == true){
+            GetObject(hSkinLaunchBtnRunIn, sizeof(bm), &bm);
+            SelectObject(dcSkin, hSkinLaunchBtnRunIn);
+        }
+        else if(bRunMouseOver == true){
+            GetObject(hSkinLaunchBtnRunOver, sizeof(bm), &bm);
+            SelectObject(dcSkin, hSkinLaunchBtnRunOver);
+        }
+        else{
+            GetObject(hBtnSkinRunOut, sizeof(bm), &bm);
+            SelectObject(dcSkin, hBtnSkinRunOut);
+        }
+
+        BitBlt(hdc, 0,0,uiRunBtnBitmapWidth,uiRunBtnBitmapHeight, dcSkin, 0, 0, SRCCOPY);
+        DeleteDC(dcSkin);
+        EndPaint(hwnd, &ps);
+    return 0 ;
+
+    case WM_KEYUP:
+        if (wParam != VK_SPACE)
+            break;
+
+    // fall through
+    case WM_LBUTTONUP:
+        SendMessage (GetParent (hwnd), WM_COMMAND,
+        GetWindowLong (hwnd, GWL_ID), (LPARAM) hwnd);
+
+    return 0;
+
+    case WM_KEYDOWN:
+
+    case WM_LBUTTONDOWN:
+    {
+        bRunMouseIn = true;
+        InvalidateRgn(hwnd, NULL, FALSE);
+        break;
+    }
+
+    }
+
+    return DefWindowProc (hwnd, message, wParam, lParam);
+}
 
 BOOL CALLBACK DlgMain(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+    static HWND hRunButtonWnd;
+
     switch(uMsg)
     {
     case WM_INITDIALOG:
@@ -133,6 +213,7 @@ BOOL CALLBACK DlgMain(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
           SetWindowLong(hwndDlg, GWL_EXSTYLE, GetWindowLong(hwndDlg, GWL_EXSTYLE) | WS_EX_LAYERED);
           SetLayeredWindowAttributes(hwndDlg, colorKey, 0, LWA_COLORKEY);
         }
+        hRunButtonWnd = ::GetDlgItem(hwndDlg,IDRUN);
     }
     return TRUE;
 
@@ -161,7 +242,7 @@ BOOL CALLBACK DlgMain(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
     {
         switch (LOWORD (wParam))
         {
-            case IDOK :
+            case IDRUN :
                 EndDialog (hwndDlg, 0) ;
                 return TRUE ;
         }
@@ -170,10 +251,10 @@ BOOL CALLBACK DlgMain(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
     case WM_MOUSEMOVE:
     {
-        if(bMouseOverButton){
-            bMouseOverButton = FALSE;
-            //InvalidateRect(GetDlgItem(hwndDlg, IDOK), NULL, TRUE);
-            InvalidateRgn(GetDlgItem(hwndDlg, IDOK), NULL, TRUE);
+        if(bRunMouseOver){
+            bRunMouseOver = FALSE;
+            //InvalidateRgn(GetDlgItem(hwndDlg, IDRUN), NULL, TRUE);
+            InvalidateRgn(hRunButtonWnd, NULL, FALSE);
         }
     }
     break;
@@ -187,12 +268,13 @@ BOOL CALLBACK DlgMain(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
     return TRUE;
 
     case WM_LBUTTONUP:
-        {
-        if(bMouseInButton){
-            bMouseInButton = FALSE;
-            InvalidateRgn(GetDlgItem(hwndDlg, IDOK), NULL, TRUE);
+    {
+        if(bRunMouseIn){
+            bRunMouseIn = FALSE;
+
+            InvalidateRgn(hRunButtonWnd, NULL, FALSE);
         }
-        }
+    }
 
     }
     return FALSE;
@@ -234,7 +316,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     wndclass.hCursor = LoadCursor (NULL, IDC_ARROW);
     wndclass.hbrBackground = (HBRUSH) (COLOR_BTNFACE + 1);
     wndclass.lpszMenuName = NULL;
-    wndclass.lpszClassName = TEXT ("EllipPush");
+    wndclass.lpszClassName = TEXT ("runBtnProc");
     RegisterClass (&wndclass);
 
 
