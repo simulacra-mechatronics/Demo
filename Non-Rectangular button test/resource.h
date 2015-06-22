@@ -5,3 +5,9 @@
 #define DLG_MAIN                                100
 #define IDB_LauncherBackground                  102
 #define IDB_LAUNCH                              104
+#define IDB_RunOut                              110
+#define IDB_RunOver                             112
+#define IDB_RunIn                               114
+#define IDB_ExitOut                             116
+#define IDB_ExitOver                            118
+#define IDB_ExitIn                              120

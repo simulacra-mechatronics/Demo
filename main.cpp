@@ -584,8 +584,8 @@ BOOL CALLBACK DlgProc (HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
             break;
         }
 
-        /* Moves the window when the user clicks anywhere not covered by a control. HTCAPTION specifies */
-        /* that all button clicks originate in the title bar area - even when the window has no title bar. */
+        // Moves the window when the user clicks anywhere not covered by a control. HTCAPTION specifies
+        // that all button clicks originate in the title bar area - even when the window has no title bar.
         case WM_LBUTTONDOWN:
         {
             PostMessage(hDlg, WM_NCLBUTTONDOWN, HTCAPTION,0);

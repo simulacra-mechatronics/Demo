@@ -6,51 +6,82 @@
 void DestroyCaption(HWND hwnd, int windowWidth, int windowHeight);
 HRGN CreateRgnFromFile(HBITMAP hBmp, COLORREF color);
 
-HBITMAP hSkinMBmp = NULL;
-HBITMAP hSkinLaunchBtnBmp = NULL;
-BOOL destroyCaption = false;
-
-// Declare our function
 typedef BOOL (WINAPI *lpfnSetLayeredWindowAttributes)(HWND hWnd, COLORREF crKey, BYTE bAlpha, DWORD dwFlags);
 lpfnSetLayeredWindowAttributes SetLayeredWindowAttributes;
 
+static COLORREF colorKey   = RGB(255,0,255);
+static DWORD LWA_COLORKEY  = 0x00000001;   // Use colorKey as the transparency color
 
-#define BUFFER_OFFSET(i) ((char*)NULL + (i))
-#define LWA_COLORKEY            0x00000001
-#define LWA_ALPHA               0x00000002
+static unsigned int bitmapHeight   = 463;
+static unsigned int bitmapWidth    = 738;
 
-#define bitmapHeight            463
-#define bitmapWidth             738
+static unsigned int buttonBitmapHeight = 35;
+static unsigned int buttonBitmapWidth  = 93;
 
-#define buttonBitmapHeight      61
-#define buttonBitmapWidth       100
+HBITMAP hSkinMBmp = NULL;
+HBITMAP hBtnSkinRunOut = NULL;
+HBITMAP hSkinLaunchBtnRunOver = NULL;
+HBITMAP hSkinLaunchBtnRunIn = NULL;
+BOOL destroyCaption = false;
 
-#define g_ColourKey             0xFF00FF // 0,0,255(pink) in hex RGB
-
-
+static BOOL bMouseOverButton = false;
+static BOOL bMouseInButton = false;
 
 LRESULT CALLBACK EllipPushWndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    HDC hdc ;
-    HRGN hRegion1;
+    static HDC hdc ;
+    static HRGN hRegion1;
 
     switch (message)
     {
+
+	case WM_LBUTTONDBLCLK:
+        PostMessage(hwnd, WM_LBUTTONDOWN, wParam, lParam);
+        break;
+
+	case WM_MOUSEMOVE:
+	{
+        // check to see if the left mousr button is pressed
+        if(!bMouseOverButton)
+            {
+            bMouseOverButton = TRUE;
+            InvalidateRgn(hwnd, NULL, FALSE);
+            }
+
+        return (0);
+	}
+	break;
+
     case WM_CREATE:
         SetWindowPos(hwnd, NULL, 0,0,buttonBitmapWidth, buttonBitmapHeight, SWP_NOMOVE | SWP_NOZORDER);
-        hRegion1 = CreateRgnFromFile(hSkinLaunchBtnBmp, g_ColourKey);       // For a good explanation of how to use regions: http://win32xplorer.blogspot.ca/2009/09/regions-and-clipping-window-to-custom.html (June 2015)
+        hRegion1 = CreateRgnFromFile(hBtnSkinRunOut, colorKey);       // For a good explanation of how to use regions: http://win32xplorer.blogspot.ca/2009/09/regions-and-clipping-window-to-custom.html (June 2015)
         SetWindowRgn(hwnd, hRegion1, true);
         DeleteObject(hRegion1);
     break;
 
     case WM_PAINT :
+        std::cout << "Paint message received" << std::endl;
         HDC dcSkin;
         BITMAP bm;
         PAINTSTRUCT ps;
         hdc = BeginPaint(hwnd, &ps);
         dcSkin = CreateCompatibleDC(hdc);
-        GetObject(hSkinLaunchBtnBmp, sizeof(bm), &bm);
-        SelectObject(dcSkin, hSkinLaunchBtnBmp);
+
+        if(bMouseInButton == true){
+            std::cout << "drawing button down" << std::endl;
+            GetObject(hSkinLaunchBtnRunIn, sizeof(bm), &bm);
+            SelectObject(dcSkin, hSkinLaunchBtnRunIn);
+        }
+        else if(bMouseOverButton == true){
+            std::cout << "drawing button over" << std::endl;
+            GetObject(hSkinLaunchBtnRunOver, sizeof(bm), &bm);
+            SelectObject(dcSkin, hSkinLaunchBtnRunOver);
+        }
+        else{
+            GetObject(hBtnSkinRunOut, sizeof(bm), &bm);
+            SelectObject(dcSkin, hBtnSkinRunOut);
+        }
+
         BitBlt(hdc, 0,0,buttonBitmapWidth,buttonBitmapHeight, dcSkin, 0, 0, SRCCOPY);
         DeleteDC(dcSkin);
         EndPaint(hwnd, &ps);
@@ -58,13 +89,29 @@ LRESULT CALLBACK EllipPushWndProc (HWND hwnd, UINT message, WPARAM wParam, LPARA
 
     case WM_KEYUP:
         if (wParam != VK_SPACE)
-    break;
+            break;
 
     // fall through
     case WM_LBUTTONUP:
         SendMessage (GetParent (hwnd), WM_COMMAND,
         GetWindowLong (hwnd, GWL_ID), (LPARAM) hwnd);
+
     return 0;
+
+
+    case WM_KEYDOWN:
+
+    case WM_LBUTTONDOWN:
+    {
+        std::cout << "Trapping left mouse click" << std::endl;
+
+        bMouseInButton = true;
+        bMouseOverButton = false;
+        InvalidateRgn(hwnd, NULL, FALSE);
+
+        break;
+    }
+
     }
 
     return DefWindowProc (hwnd, message, wParam, lParam);
@@ -84,7 +131,7 @@ BOOL CALLBACK DlgMain(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
             }
 
           SetWindowLong(hwndDlg, GWL_EXSTYLE, GetWindowLong(hwndDlg, GWL_EXSTYLE) | WS_EX_LAYERED);
-          SetLayeredWindowAttributes(hwndDlg, g_ColourKey, 0, LWA_COLORKEY);
+          SetLayeredWindowAttributes(hwndDlg, colorKey, 0, LWA_COLORKEY);
         }
     }
     return TRUE;
@@ -121,6 +168,32 @@ BOOL CALLBACK DlgMain(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
     }
     return TRUE;
 
+    case WM_MOUSEMOVE:
+    {
+        if(bMouseOverButton){
+            bMouseOverButton = FALSE;
+            //InvalidateRect(GetDlgItem(hwndDlg, IDOK), NULL, TRUE);
+            InvalidateRgn(GetDlgItem(hwndDlg, IDOK), NULL, TRUE);
+        }
+    }
+    break;
+
+    // Moves the window when the user clicks anywhere not covered by a control. HTCAPTION specifies
+    // that all button clicks originate in the title bar area - even when the window has no title bar.
+    case WM_LBUTTONDOWN:
+    {
+        PostMessage(hwndDlg, WM_NCLBUTTONDOWN, HTCAPTION,0);
+    }
+    return TRUE;
+
+    case WM_LBUTTONUP:
+        {
+        if(bMouseInButton){
+            bMouseInButton = FALSE;
+            InvalidateRgn(GetDlgItem(hwndDlg, IDOK), NULL, TRUE);
+        }
+        }
+
     }
     return FALSE;
 }
@@ -133,9 +206,17 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     if(hSkinMBmp == NULL)
         std::cerr << "Could not load loader skin bitmap" << std::endl;
 
-    hSkinLaunchBtnBmp = LoadBitmap(hInstance, MAKEINTRESOURCE(IDB_LAUNCH));
-    if(hSkinLaunchBtnBmp == NULL)
+    hBtnSkinRunOut = LoadBitmap(hInstance, MAKEINTRESOURCE(IDB_RunOut));
+    if(hBtnSkinRunOut == NULL)
         std::cerr << "Could not load launcher button skin bitmap" << std::endl;
+
+    hSkinLaunchBtnRunOver = LoadBitmap(hInstance, MAKEINTRESOURCE(IDB_RunOver));
+    if(hSkinLaunchBtnRunOver == NULL)
+        std::cerr << "Could not load launcher button (RunOver) skin bitmap" << std::endl;
+
+    hSkinLaunchBtnRunIn = LoadBitmap(hInstance, MAKEINTRESOURCE(IDB_RunIn));
+    if(hSkinLaunchBtnRunIn == NULL)
+        std::cerr << "Could not load launcher button (RunOver) skin bitmap" << std::endl;
 
     // import function to make windows transparent
     HMODULE hUser32 = GetModuleHandle(("USER32.DLL"));
