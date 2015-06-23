@@ -12,3 +12,4 @@
 #define IDB_ExitOver                            118
 #define IDB_ExitIn                              120
 #define IDRUN                                   40000
+#define IDEXIT                                  40001
