@@ -1,4 +1,5 @@
 #include <windows.h>
+#include "BitmapSkin.h"
 #include <iostream>     // Used for outputting info via 'cout' or 'cerr' to debug window
 #include "resource.h"   // Contains declarations of resources contained in resource file
 
@@ -255,10 +256,16 @@ BOOL CALLBACK DlgMain(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
     {
         if(bRunMouseOver){                          // Check to see if the mouse was previously over the 'Run' button
             bRunMouseOver = FALSE;                  // Set a flag to signify that the mouse is not hovering over the 'Run' button any more
+            if(bRunMouseIn){                        // Check to see if the mouse button was previously flagged as down over the 'Run' button
+                bRunMouseIn = FALSE;                // Set a flag to signify that the 'Run' button does not have the left mouse button clicked over it any more
+            }
             InvalidateRgn(hRunButtonWnd, NULL, FALSE);  // Redraw the 'Run' button with the default state
         }
         if(bExitMouseOver){                         // Check to see if the mouse was previously over the 'Exit' button
             bExitMouseOver = FALSE;                 // Set a flag to signify that the mouse is not hovering over the 'Exit' button any more
+            if(bExitMouseIn){                       // Check to see if the mouse button was previously flagged as down over the 'Exit' button
+                bExitMouseIn = FALSE;               // Set a flag to signify that the 'Exit' button does not have the left mouse button clicked over it any more
+            }
             InvalidateRgn(hExitButtonWnd, NULL, FALSE); // Redraw the 'Exit' button with the default state
         }
     }
