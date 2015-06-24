@@ -13,8 +13,10 @@
 	<richedit.h>
 	"resource.h"
 
-1435030114 source:c:\users\godvalve\documents\github\demo\non-rectangular button test\main.cpp
+1435117567 source:c:\users\godvalve\documents\github\demo\non-rectangular button test\main.cpp
 	<windows.h>
+	"CustomSkinnedButton.h"
+	"BitmapSkin.h"
 	<iostream>
 	"resource.h"
 
@@ -44,5 +46,20 @@
 	<windows.h>
 
 1435065617 source:c:\users\william.mccolm\documents\github\demo\non-rectangular button test\src\bitmapskin.cpp
+	"BitmapSkin.h"
+
+1435111524 c:\users\godvalve\documents\github\demo\non-rectangular button test\include\bitmapskin.h
+	<windows.h>
+	<iostream>
+	<string>
+
+1435111796 source:c:\users\godvalve\documents\github\demo\non-rectangular button test\src\bitmapskin.cpp
+	"BitmapSkin.h"
+
+1435118584 source:c:\users\godvalve\documents\github\demo\non-rectangular button test\src\customskinnedbutton.cpp
+	"CustomSkinnedButton.h"
+
+1435116677 c:\users\godvalve\documents\github\demo\non-rectangular button test\include\customskinnedbutton.h
+	<windows.h>
 	"BitmapSkin.h"
 
