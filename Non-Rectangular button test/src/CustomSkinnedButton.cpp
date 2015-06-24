@@ -1,6 +1,6 @@
 #include "CustomSkinnedButton.h"
 
-CustomSkinnedButton::CustomSkinnedButton(HINSTANCE hInstance, const char* szClassName, WORD wBitmapResource_ButtonOut, WORD wBitmapResource_ButtonOver, WORD wBitmapResource_ButtonIn, COLORREF transparencyColorKey){
+CustomSkinnedButton::CustomSkinnedButton(HINSTANCE hInstance, WORD wBitmapResource_ButtonOut, WORD wBitmapResource_ButtonOver, WORD wBitmapResource_ButtonIn, COLORREF transparencyColorKey){
     pButtonOut = new BitmapSkin(hInstance, wBitmapResource_ButtonOut);
     pButtonOver = new BitmapSkin(hInstance, wBitmapResource_ButtonOver);
     pButtonIn = new BitmapSkin(hInstance, wBitmapResource_ButtonIn);
@@ -9,24 +9,6 @@ CustomSkinnedButton::CustomSkinnedButton(HINSTANCE hInstance, const char* szClas
     bmHeight = pButtonIn->getBitmapHeight();
 
     SetVisibleRgnFromBitmap(pButtonIn->getBitmapHandle(), transparencyColorKey);    // For a good explanation of how to use regions: http://win32xplorer.blogspot.ca/2009/09/regions-and-clipping-window-to-custom.html (June 2015)
-    registerButtonWindowClass(szClassName);
-}
-
-void CustomSkinnedButton::registerButtonWindowClass(const char* szClassName){
-
-    // Create the window class for our button
-    WNDCLASS wndclass;
-    wndclass.style = CS_HREDRAW | CS_VREDRAW;
-    wndclass.lpfnWndProc = RunButtonWndProc;         // Where we specify the name of the window procedure
-    wndclass.cbClsExtra = 0;
-    wndclass.cbWndExtra = 0;
-    wndclass.hInstance = hInstance;
-    wndclass.hIcon = NULL;
-    wndclass.hCursor = LoadCursor (NULL, IDC_ARROW);
-    wndclass.hbrBackground = (HBRUSH) (COLOR_BTNFACE + 1);
-    wndclass.lpszMenuName = NULL;
-    wndclass.lpszClassName = szClassName;    // This value is referenced by the custom control in the RC file
-    RegisterClass (&wndclass);
 }
 
 void CustomSkinnedButton::mouseIsOver(){

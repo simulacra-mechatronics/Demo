@@ -28,24 +28,28 @@
 	<richedit.h>
 	"resource.h"
 
-1435074740 source:c:\users\william.mccolm\documents\github\demo\non-rectangular button test\main.cpp
+1435170593 source:c:\users\william.mccolm\documents\github\demo\non-rectangular button test\main.cpp
 	<windows.h>
+	"CustomDialogButton.h"
+	"CustomSkinnedButton.h"
 	"BitmapSkin.h"
 	<iostream>
 	"resource.h"
 
 1435061648 c:\users\william.mccolm\documents\github\demo\non-rectangular button test\resource.h
 
-1435061648 source:c:\users\william.mccolm\documents\github\demo\non-rectangular button test\resource.rc
+1435171434 source:c:\users\william.mccolm\documents\github\demo\non-rectangular button test\resource.rc
 	<windows.h>
 	<commctrl.h>
 	<richedit.h>
 	"resource.h"
 
-1435080393 c:\users\william.mccolm\documents\github\demo\non-rectangular button test\include\bitmapskin.h
+1435147549 c:\users\william.mccolm\documents\github\demo\non-rectangular button test\include\bitmapskin.h
 	<windows.h>
+	<iostream>
+	<string>
 
-1435065617 source:c:\users\william.mccolm\documents\github\demo\non-rectangular button test\src\bitmapskin.cpp
+1435147549 source:c:\users\william.mccolm\documents\github\demo\non-rectangular button test\src\bitmapskin.cpp
 	"BitmapSkin.h"
 
 1435111524 c:\users\godvalve\documents\github\demo\non-rectangular button test\include\bitmapskin.h
@@ -62,4 +66,18 @@
 1435116677 c:\users\godvalve\documents\github\demo\non-rectangular button test\include\customskinnedbutton.h
 	<windows.h>
 	"BitmapSkin.h"
+
+1435147549 c:\users\william.mccolm\documents\github\demo\non-rectangular button test\include\customdialogbutton.h
+
+1435169611 c:\users\william.mccolm\documents\github\demo\non-rectangular button test\include\customskinnedbutton.h
+	<windows.h>
+	"BitmapSkin.h"
+
+1435147549 source:c:\users\william.mccolm\documents\github\demo\non-rectangular button test\src\customdialogbutton.cpp
+	"CustomDialogButton.h"
+
+1435169596 source:c:\users\william.mccolm\documents\github\demo\non-rectangular button test\src\customskinnedbutton.cpp
+	"CustomSkinnedButton.h"
+
+1435061648 c:\users\william.mccolm\documents\github\demo\non-rectangular button test\include\resource.h
 

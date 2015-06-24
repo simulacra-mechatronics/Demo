@@ -5,11 +5,13 @@
 #include <iostream>     // Used for outputting info via 'cout' or 'cerr' to debug window
 #include "resource.h"   // Contains declarations of resources contained in resource file
 
-
-void DestroyCaption(HWND hwnd, int windowWidth, int windowHeight);  // Used to remove window caption and size window to bitmap size
-
 typedef BOOL (WINAPI *lpfnSetLayeredWindowAttributes)(HWND hWnd, COLORREF crKey, BYTE bAlpha, DWORD dwFlags);   // Get a function pointer
 lpfnSetLayeredWindowAttributes SetLayeredWindowAttributes;  // Set instance of function pointer
+
+void DestroyCaption(HWND hwnd, int windowWidth, int windowHeight);  // Used to remove window caption and size window to bitmap size
+BOOL CALLBACK DlgMain(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK ExitButtonWndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK RunButtonWndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 static COLORREF colorKey   = RGB(255,0,255);        // Color used in bitmap to designate transparent areas
 static DWORD LWA_COLORKEY  = 0x00000001;            // Use colorKey as the transparency color
@@ -18,6 +20,55 @@ BOOL destroyCaption = false;                        // A boolean flag to determi
 BitmapSkin* pDialogSkin;
 CustomSkinnedButton* pRunButton;
 CustomSkinnedButton* pExitButton;
+
+int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
+{
+    // Load our bitmaps
+    pDialogSkin = new BitmapSkin(hInstance, IDB_LauncherBackground);
+    pRunButton = new CustomSkinnedButton(hInstance, IDB_RunOut, IDB_RunOver, IDB_RunIn, colorKey);
+    pExitButton = new CustomSkinnedButton(hInstance, IDB_ExitOut, IDB_ExitOver, IDB_ExitIn, colorKey);
+
+    // Import function to make windows transparent
+    HMODULE hUser32 = GetModuleHandle(("USER32.DLL"));
+    SetLayeredWindowAttributes = (lpfnSetLayeredWindowAttributes)GetProcAddress(hUser32, "SetLayeredWindowAttributes");
+    if(SetLayeredWindowAttributes == NULL)
+        std::cerr << "Error: could not load window transparency. Could not load User32.DLL" << std::endl;
+
+    // Create the window class for our 'Run' button
+    WNDCLASS runWndclass;
+    runWndclass.style = CS_HREDRAW | CS_VREDRAW;
+    runWndclass.lpfnWndProc = RunButtonWndProc;         // Where we specify the name of the window procedure
+    runWndclass.cbClsExtra = 0;
+    runWndclass.cbWndExtra = 0;
+    runWndclass.hInstance = hInstance;
+    runWndclass.hIcon = NULL;
+    runWndclass.hCursor = LoadCursor (NULL, IDC_ARROW);
+    runWndclass.hbrBackground = (HBRUSH) (COLOR_BTNFACE + 1);
+    runWndclass.lpszMenuName = NULL;
+    runWndclass.lpszClassName = TEXT ("runBtnProc");    // This value is reference by the IDRUN control in the RC file
+    RegisterClass (&runWndclass);
+
+    // Create the window class for our 'Exit' button
+    WNDCLASS exitWndclass;
+    exitWndclass.style = CS_HREDRAW | CS_VREDRAW;
+    exitWndclass.lpfnWndProc = ExitButtonWndProc;       // Where we specify the name of the window procedure
+    exitWndclass.cbClsExtra = 0;
+    exitWndclass.cbWndExtra = 0;
+    exitWndclass.hInstance = hInstance;
+    exitWndclass.hIcon = NULL;
+    exitWndclass.hCursor = LoadCursor (NULL, IDC_ARROW);
+    exitWndclass.hbrBackground = (HBRUSH) (COLOR_BTNFACE + 1);
+    exitWndclass.lpszMenuName = NULL;
+    exitWndclass.lpszClassName = TEXT ("exitBtnProc");  // This value is referenced by the IDEXIT control in the RC file
+    RegisterClass (&exitWndclass);
+
+    // Launch the dialog window
+    return DialogBox(hInstance, MAKEINTRESOURCE(DLG_MAIN), NULL, (DLGPROC)DlgMain);
+
+    delete pDialogSkin;
+    delete pRunButton;
+    delete pExitButton;
+}
 
 // Window procedure for the owner-draw custom control IDEXIT ('Exit' button)
 LRESULT CALLBACK ExitButtonWndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -179,7 +230,6 @@ BOOL CALLBACK DlgMain(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
     switch(uMsg)                                    // Search through messages sent to this window procedure
     {
     case WM_INITDIALOG:                             // Creating of the dialog window
-    {
         if(SetLayeredWindowAttributes != NULL)      // Make sure that this function exits
         {
             if(destroyCaption == false) {           // Make sure that the caption has not already been destroyed
@@ -192,12 +242,11 @@ BOOL CALLBACK DlgMain(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
         }
         hRunButtonWnd = ::GetDlgItem(hwndDlg,IDRUN);    // Get the window handle for the 'Run' button
         hExitButtonWnd = ::GetDlgItem(hwndDlg,IDEXIT);  // Get the window handle for the 'Exit' button
-    }
     return TRUE;
 
     // draw our bitmap
     case WM_PAINT:                                  // Draw the dialog window
-    {
+        {
         BITMAP bm;                                  // Create a bitmap structure
         PAINTSTRUCT ps;                             // Create a paint structure
         HDC hdc = BeginPaint(hwndDlg, &ps);         // Create a device context used for the dialog window
@@ -207,8 +256,8 @@ BOOL CALLBACK DlgMain(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
         BitBlt(hdc, 0,0,pDialogSkin->getBitmapWidth(),pDialogSkin->getBitmapHeight(), dcSkin, 0, 0, SRCCOPY);   // Performs bit-block transfer of bitmap pixels to the memory device context
         DeleteDC(dcSkin);                           // Release the memory device context
         EndPaint(hwndDlg, &ps);                     // End painting of dialog window
-    break;
-    }
+        }
+    return true;
 
     case WM_CLOSE:                                  // Exit application
     {
@@ -277,54 +326,6 @@ BOOL CALLBACK DlgMain(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 }
 
 
-int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
-{
-    // Load our bitmaps
-    pDialogSkin = new BitmapSkin(hInstance, IDB_LauncherBackground);
-    pRunButton = new CustomSkinnedButton(hInstance, "runBtnProc", IDB_RunOut, IDB_RunOver, IDB_RunIn, colorKey);
-    pExitButton = new CustomSkinnedButton(hInstance, "exitBtnProc", IDB_ExitOut, IDB_ExitOver, IDB_ExitIn, colorKey);
-
-    // Import function to make windows transparent
-    HMODULE hUser32 = GetModuleHandle(("USER32.DLL"));
-    SetLayeredWindowAttributes = (lpfnSetLayeredWindowAttributes)GetProcAddress(hUser32, "SetLayeredWindowAttributes");
-    if(SetLayeredWindowAttributes == NULL)
-        std::cerr << "Error: could not load window transparency. Could not load User32.DLL" << std::endl;
-/*
-    // Create the window class for our 'Run' button
-    WNDCLASS runWndclass;
-    runWndclass.style = CS_HREDRAW | CS_VREDRAW;
-    runWndclass.lpfnWndProc = RunButtonWndProc;         // Where we specify the name of the window procedure
-    runWndclass.cbClsExtra = 0;
-    runWndclass.cbWndExtra = 0;
-    runWndclass.hInstance = hInstance;
-    runWndclass.hIcon = NULL;
-    runWndclass.hCursor = LoadCursor (NULL, IDC_ARROW);
-    runWndclass.hbrBackground = (HBRUSH) (COLOR_BTNFACE + 1);
-    runWndclass.lpszMenuName = NULL;
-    runWndclass.lpszClassName = TEXT ("runBtnProc");    // This value is reference by the IDRUN control in the RC file
-    RegisterClass (&runWndclass);
-
-    // Create the window class for our 'Exit' button
-    WNDCLASS exitWndclass;
-    exitWndclass.style = CS_HREDRAW | CS_VREDRAW;
-    exitWndclass.lpfnWndProc = ExitButtonWndProc;       // Where we specify the name of the window procedure
-    exitWndclass.cbClsExtra = 0;
-    exitWndclass.cbWndExtra = 0;
-    exitWndclass.hInstance = hInstance;
-    exitWndclass.hIcon = NULL;
-    exitWndclass.hCursor = LoadCursor (NULL, IDC_ARROW);
-    exitWndclass.hbrBackground = (HBRUSH) (COLOR_BTNFACE + 1);
-    exitWndclass.lpszMenuName = NULL;
-    exitWndclass.lpszClassName = TEXT ("exitBtnProc");  // This value is referenced by the IDEXIT control in the RC file
-    RegisterClass (&exitWndclass);
-*/
-    // Launch the dialog window
-    return DialogBox(hInstance, MAKEINTRESOURCE(DLG_MAIN), NULL, (DLGPROC)DlgMain);
-
-    delete pDialogSkin;
-    delete pRunButton;
-    delete pExitButton;
-}
 
 
 // Destroy our windows caption

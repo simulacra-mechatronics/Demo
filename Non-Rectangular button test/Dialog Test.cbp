@@ -39,7 +39,6 @@
 			<Add library="kernel32" />
 		</Linker>
 		<Unit filename="include/BitmapSkin.h" />
-		<Unit filename="include/CustomDialogButton.h" />
 		<Unit filename="include/CustomSkinnedButton.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="manifest.xml" />
@@ -48,7 +47,6 @@
 			<Option compilerVar="WINDRES" />
 		</Unit>
 		<Unit filename="src/BitmapSkin.cpp" />
-		<Unit filename="src/CustomDialogButton.cpp" />
 		<Unit filename="src/CustomSkinnedButton.cpp" />
 		<Extensions>
 			<code_completion />

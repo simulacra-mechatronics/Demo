@@ -11,7 +11,7 @@
 class CustomSkinnedButton
 {
     public:
-        CustomSkinnedButton(HINSTANCE hInstance, const char* szClassName, WORD wBitmapResource_ButtonOut, WORD wBitmapResource_ButtonOver, WORD wBitmapResource_ButtonIn, COLORREF transparencyColorKey);
+        CustomSkinnedButton(HINSTANCE hInstance, WORD wBitmapResource_ButtonOut, WORD wBitmapResource_ButtonOver, WORD wBitmapResource_ButtonIn, COLORREF transparencyColorKey);
         void mouseIsOver();
         void mouseIsOut();
         void mouseLeftDown();
@@ -29,7 +29,6 @@ class CustomSkinnedButton
         ~CustomSkinnedButton();
 
     private:
-        void registerButtonWindowClass(const char* szClassName);
         void SetVisibleRgnFromBitmap(HBITMAP hBmp, COLORREF color);
 
         bool bMouseOver = false;                // A boolean flag set to signal that the mouse is hovering over the button
