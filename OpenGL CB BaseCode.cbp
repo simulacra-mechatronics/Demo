@@ -40,18 +40,17 @@
 			<Add library="glu32" />
 			<Add library="gdi32" />
 		</Linker>
-		<Unit filename="Info.txt" />
-		<Unit filename="ResourceLocker.rc">
-			<Option compilerVar="WINDRES" />
-		</Unit>
-		<Unit filename="basic-fixed.frag" />
-		<Unit filename="basic-fixed.vert" />
+		<Unit filename="include/BitmapSkin.h" />
+		<Unit filename="include/CustomSkinnedButton.h" />
 		<Unit filename="include/Shader.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="resource.h" />
+		<Unit filename="resource.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
+		<Unit filename="src/BitmapSkin.cpp" />
+		<Unit filename="src/CustomSkinnedButton.cpp" />
 		<Unit filename="src/Shader.cpp" />
-		<Unit filename="targa.cpp" />
-		<Unit filename="targa.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

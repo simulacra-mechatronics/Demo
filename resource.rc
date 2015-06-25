@@ -14,11 +14,31 @@
 // Bitmap resources
 //
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-IDB_LAUNCH         BITMAP         ".\\launcher.bmp"
+IDB_ExitIn         BITMAP         ".\\resources\\launcher\\ExitIn.bmp"
 
 
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-IDB_LauncherBackground BITMAP         ".\\LauncherBackground.bmp"
+IDB_ExitOut        BITMAP         ".\\resources\\launcher\\ExitOut.bmp"
+
+
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+IDB_ExitOver       BITMAP         ".\\resources\\launcher\\ExitOver.bmp"
+
+
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+IDB_LauncherBackground BITMAP         ".\\resources\\launcher\\LauncherBackground.bmp"
+
+
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+IDB_RunIn          BITMAP         ".\\resources\\launcher\\RunIn.bmp"
+
+
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+IDB_RunOut         BITMAP         ".\\resources\\launcher\\RunOut.bmp"
+
+
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+IDB_RunOver        BITMAP         ".\\resources\\launcher\\RunOver.bmp"
 
 
 
@@ -26,17 +46,17 @@ IDB_LauncherBackground BITMAP         ".\\LauncherBackground.bmp"
 // Dialog resources
 //
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-IDD_DemoLauncher DIALOG 0, 0, 422, 265
+DLG_MAIN DIALOG 0, 0, 430, 266
 STYLE DS_3DLOOK | DS_CENTER | DS_SHELLFONT | WS_VISIBLE | WS_POPUP | WS_SYSMENU
 FONT 9, "Tahoma"
 {
+    CONTROL         "Run", IDRUN, "runBtnProc", 0x50020000, 294, 204, 42, 28, 0x00000000
+    CONTROL         "Exit", IDEXIT, "exitBtnProc", 0x50020000, 347, 204, 46, 28, 0x00000000
     LISTBOX         IDC_RESOLUTION, 53, 117, 133, 73, WS_TABSTOP | WS_VSCROLL | LBS_NOINTEGRALHEIGHT | LBS_SORT | LBS_NOTIFY, WS_EX_LEFT
     LISTBOX         IDC_ASPECT, 206, 117, 40, 73, WS_TABSTOP | WS_VSCROLL | LBS_NOINTEGRALHEIGHT | LBS_SORT | LBS_NOTIFY, WS_EX_LEFT
     GROUPBOX        "", IDC_STATIC, 131, 55, 124, 48, 0, WS_EX_LEFT
     LTEXT           "Launcher Options", IDC_STATIC, 166, 63, 56, 9, SS_LEFT, WS_EX_TRANSPARENT
     AUTOCHECKBOX    "&Fullscreen", IDC_FULLSCREEN, 173, 81, 51, 8, BS_LEFTTEXT, WS_EX_LEFT
-    PUSHBUTTON      "&Launch!", IDLAUNCH, 295, 212, 43, 14, 0, WS_EX_LEFT
-    PUSHBUTTON      "E&xit", IDEXIT, 355, 212, 34, 14, 0, WS_EX_LEFT
 }
 
 
@@ -45,4 +65,4 @@ FONT 9, "Tahoma"
 // Icon resources
 //
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-IDI_SMICON         ICON           ".\\DemoChroniclesIcon.ico"
+IDI_SMICON         ICON           ".\\resources\\launcher\\DemoChroniclesIcon.ico"
