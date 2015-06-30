@@ -1,8 +1,66 @@
+#include "demoMain.h"
+
+glm::mat4 projectionMatrix;
+glm::mat4 viewMatrix;
+glm::mat4 modelMatrix;
+glm::mat4 MVP;
+
+GLuint mvpMatrixLocationInShader;
+
+GLuint vertexBuffer;        // This will identify our vertex buffer
+GLuint colorBuffer;         // Our color buffer
+Shader *demoShader;         // Declare a Shader object
+
+LARGE_INTEGER TimerFreq;	// Timer Frequency.
+LARGE_INTEGER TimeStart;	// Time of start.
+LARGE_INTEGER TimeCur;		// Current time.
+
+
+using namespace glm;
+
+
+//--------------------------------------------------------------------------------------
+// Initialize the OpenGL state machine. Set up projection matrix and other initial states
+//--------------------------------------------------------------------------------------
+void InitializeDemo()   // Setup our scene
+{
+    /* Reset the timer variables */
+	QueryPerformanceFrequency(&TimerFreq);
+	QueryPerformanceCounter(&TimeStart);
+
+    glClearColor(0.4f, 0.6f, 0.9f, 0.0f);                               // Set the clear colour based on Microsoft's CornflowerBlue (default in XNA)
+    demoShader = new Shader("resources\\shaders\\basic-fixed.vert", "resources\\shaders\\basic-fixed.frag");    // Initialize our Shader object with the file names of our shader files. Shader files are located inthe same directory as the compiled application.
+
+    fFieldOfView = 45.0F; // Set to 60.0F
+    ConfigureViewport(iScreenWidth, iScreenHeight);                     // Set the viewport to the selected aspect ratio and compute the projection matrix
+
+    viewMatrix = glm::lookAt(glm::vec3(4,3,3), glm::vec3(0,0,0), glm::vec3(0,1,0));
+    modelMatrix = glm::mat4(1.0f);
+    projectionMatrix = glm::perspective(fFieldOfView, fAspectRatio, 0.1F, 100.0F);     // Creates a perspective projection matrix
+    MVP = projectionMatrix * viewMatrix * modelMatrix;
+
+    mvpMatrixLocationInShader = glGetUniformLocation(demoShader->id(), "MVP");   // Get the location of the projection matrix in the shader
+
+    createSquare();
+
+    // Enable depth test
+    glEnable(GL_DEPTH_TEST);
+    // Accept fragment if it closer to the camera than the former one
+    glDepthFunc(GL_LESS);
+}
+
 //--------------------------------------------------------------------------------------
 // The location of your OpenGL code
 //--------------------------------------------------------------------------------------
 void RenderNextDemoFrame()
 {
+
+        /* Get the current time, and update the time controller. */
+    QueryPerformanceCounter(&TimeCur);
+    float fOldTime = fTime;
+    fTime = (float)((double)(TimeCur.QuadPart-TimeStart.QuadPart)/(double)TimerFreq.QuadPart);
+    fDeltaTime = fTime - fOldTime;
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     demoShader->Bind();
@@ -44,42 +102,6 @@ void RenderNextDemoFrame()
 
     demoShader->unbind();
 }
-
-
-
-
-
-
-//--------------------------------------------------------------------------------------
-// Initialize the OpenGL state machine. Set up projection matrix and other initial states
-//--------------------------------------------------------------------------------------
-void InitializeDemo()   // Setup our scene
-{
-    glClearColor(0.4f, 0.6f, 0.9f, 0.0f);                               // Set the clear colour based on Microsoft's CornflowerBlue (default in XNA)
-    demoShader = new Shader("resources\\shaders\\basic-fixed.vert", "resources\\shaders\\basic-fixed.frag");    // Initialize our Shader object with the file names of our shader files. Shader files are located inthe same directory as the compiled application.
-
-    fFieldOfView = 45.0F; // Set to 60.0F
-    ConfigureViewport(iScreenWidth, iScreenHeight);                     // Set the viewport to the selected aspect ratio and compute the projection matrix
-
-    viewMatrix = glm::lookAt(glm::vec3(4,3,3), glm::vec3(0,0,0), glm::vec3(0,1,0));
-    modelMatrix = glm::mat4(1.0f);
-    projectionMatrix = glm::perspective(fFieldOfView, fAspectRatio, 0.1F, 100.0F);     // Creates a perspective projection matrix
-    MVP = projectionMatrix * viewMatrix * modelMatrix;
-
-    mvpMatrixLocationInShader = glGetUniformLocation(demoShader->id(), "MVP");   // Get the location of the projection matrix in the shader
-
-    createSquare();
-
-    // Enable depth test
-    glEnable(GL_DEPTH_TEST);
-    // Accept fragment if it closer to the camera than the former one
-    glDepthFunc(GL_LESS);
-}
-
-
-
-
-
 
 void createSquare() {
     GLuint VertexArrayID;
@@ -176,3 +198,4 @@ void createSquare() {
     glBindBuffer(GL_ARRAY_BUFFER, colorBuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(g_color_buffer_data), g_color_buffer_data, GL_STATIC_DRAW);
 }
+

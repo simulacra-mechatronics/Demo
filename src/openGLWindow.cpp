@@ -1,4 +1,108 @@
-#include "window.h"
+#include "openGLWindow.h"
+
+
+//--------------------------------------------------------------------------------------
+// Global Variables
+//--------------------------------------------------------------------------------------
+float fTime=0.f, fDeltaTime=0.f;
+
+BOOL fullscreen;
+int iScreenWidth;
+int iScreenHeight;
+int iBitsPerPel;
+float fAspectRatio;
+float fFieldOfView;
+
+
+
+
+HWND createOpenGLWindow(HINSTANCE hInstance){
+    WNDCLASSEX wcex;
+    HWND hWnd;
+
+    /* Register window class */
+    wcex.cbSize = sizeof(WNDCLASSEX);
+    wcex.style = CS_OWNDC;
+    wcex.lpfnWndProc = WindowProc;
+    wcex.cbClsExtra = 0;
+    wcex.cbWndExtra = 0;
+    wcex.hInstance = hInstance;
+    wcex.hIcon = LoadIcon(hInstance, (LPCTSTR)IDI_SMICON);
+    wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
+    wcex.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
+    wcex.lpszMenuName = NULL;
+    wcex.lpszClassName = szAppName;
+    wcex.hIconSm = LoadIcon(hInstance, (LPCTSTR)IDI_SMICON);
+
+    if (!RegisterClassEx(&wcex))
+        std::cout << "Could not register WNDCLASSEX for main window\n";
+
+    /* Create main window */
+    if(fullscreen == FALSE)
+    {
+        hWnd = CreateWindowEx(0,
+                          szAppName,
+                          szAppName,
+                          WS_OVERLAPPEDWINDOW,
+                          CW_USEDEFAULT,
+                          CW_USEDEFAULT,
+                          iScreenWidth + GetSystemMetrics(SM_CXSIZEFRAME) * 2,
+                          iScreenHeight + GetSystemMetrics(SM_CYCAPTION) + GetSystemMetrics(SM_CYSIZEFRAME) * 2,
+                          NULL,
+                          NULL,
+                          hInstance,
+                          NULL);
+    }
+    else
+	{
+	    /* Bring up the application in fullscreen mode */
+		hWnd = CreateWindow(
+				szAppName,
+				szAppName,
+				WS_POPUP,
+				0, 0,
+				iScreenWidth, iScreenHeight,
+				NULL, NULL,
+				hInstance,
+				0 );
+	}
+
+	return hWnd;
+}
+
+
+
+//--------------------------------------------------------------------------------------
+// Set the rendering area to accommodate the selected aspect ratio
+//--------------------------------------------------------------------------------------
+void ConfigureViewport(GLsizei width, GLsizei height)
+{
+    /* Prevent a divide by Zero */
+	if( height == 0 )
+		height = 1;
+
+    GLfloat fActualAspectRatio = ((GLfloat)width/(GLfloat)height);
+    GLsizei x_offset = 0;
+    GLsizei y_offset = 0;
+    GLsizei viewPortWidth = width;
+    GLsizei viewPortHeight = height;
+
+    if(fAspectRatio < fActualAspectRatio)
+    {
+        GLfloat visibleWidth = (GLfloat)height * fAspectRatio;
+        x_offset = (GLsizei)((width-(int)visibleWidth)/2.0f);
+        viewPortWidth = (int)visibleWidth;
+    }
+    else if(fAspectRatio > fActualAspectRatio)
+    {
+        GLfloat visibleHeight = (GLfloat)width/fAspectRatio;
+        y_offset =(GLsizei)((height-(int)visibleHeight)/2.0f);
+        viewPortHeight = (int)visibleHeight;
+    }
+
+	/* Set viewport to our new dimensions. */
+	glViewport( x_offset, y_offset, viewPortWidth, viewPortHeight);
+}
 
 //--------------------------------------------------------------------------------------
 // Called every time the application receives a message
@@ -39,38 +143,6 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 
 //--------------------------------------------------------------------------------------
-// Set the rendering area to accomodate the selected aspect ratio
-//--------------------------------------------------------------------------------------
-void ConfigureViewport(GLsizei width, GLsizei height)
-{
-    /* Prevent a divide by Zero */
-	if( height == 0 )
-		height = 1;
-
-    GLfloat fActualAspectRatio = ((GLfloat)width/(GLfloat)height);
-    GLsizei x_offset = 0;
-    GLsizei y_offset = 0;
-    GLsizei viewPortWidth = width;
-    GLsizei viewPortHeight = height;
-
-    if(fAspectRatio < fActualAspectRatio)
-    {
-        GLfloat visibleWidth = (GLfloat)height * fAspectRatio;
-        x_offset = (GLsizei)((width-(int)visibleWidth)/2.0f);
-        viewPortWidth = (int)visibleWidth;
-    }
-    else if(fAspectRatio > fActualAspectRatio)
-    {
-        GLfloat visibleHeight = (GLfloat)width/fAspectRatio;
-        y_offset =(GLsizei)((height-(int)visibleHeight)/2.0f);
-        viewPortHeight = (int)visibleHeight;
-    }
-
-	/* Set viewport to our new dimensions. */
-	glViewport( x_offset, y_offset, viewPortWidth, viewPortHeight);
-}
-
-//--------------------------------------------------------------------------------------
 // Resize the window and reset the projection matrix
 //--------------------------------------------------------------------------------------
 void ResizeViewport(GLsizei width, GLsizei height)
@@ -80,6 +152,7 @@ void ResizeViewport(GLsizei width, GLsizei height)
 
 	projectionMatrix = glm::perspective(fFieldOfView, fAspectRatio, 0.1F, 100.0F);     // Creates a perspective projection matrix
 }
+
 
 //--------------------------------------------------------------------------------------
 // Set screen to fullscreen mode
@@ -145,7 +218,7 @@ void EnableOpenGL(HWND hWnd, HDC* hDC, HGLRC* hRC)
     int attributes[] = {
         WGL_CONTEXT_MAJOR_VERSION_ARB, 3, // Set the MAJOR version of OpenGL to 3
         WGL_CONTEXT_MINOR_VERSION_ARB, 3, // Set the MINOR version of OpenGL to 3
-        WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB, // Set our OpenGL context to be forward compatible
+        //WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB, // Set our OpenGL context to be forward compatible
         0
     };
 

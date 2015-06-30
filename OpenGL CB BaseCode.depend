@@ -196,24 +196,13 @@
 	<GL/glew.h>
 	<GL/glext.h>
 
-1435206620 source:c:\users\godvalve\documents\github\demo\main.cpp
-	<windows.h>
-	<iostream>
-	<stdio.h>
-	<GL/glew.h>
-	<GL/wglew.h>
-	<GL/glext.h>
-	<glm/glm.hpp>
-	<glm/gtc/matrix_transform.hpp>
-	<glm/gtx/transform2.hpp>
-	"resource.h"
-	"Shader.h"
-	"CustomSkinnedButton.h"
-	"BitmapSkin.h"
+1435638109 source:c:\users\godvalve\documents\github\demo\main.cpp
+	"launcher.h"
+	"openGLWindow.h"
 
-1435194132 c:\users\godvalve\documents\github\demo\resource.h
+1435206765 c:\users\godvalve\documents\github\demo\resource.h
 
-1434688644 c:\users\godvalve\documents\github\demo\include\shader.h
+1435206765 c:\users\godvalve\documents\github\demo\include\shader.h
 	<windows.h>
 	<fstream>
 	<iostream>
@@ -228,7 +217,7 @@
 	<richedit.h>
 	"resource.h"
 
-1434688644 source:c:\users\godvalve\documents\github\demo\src\shader.cpp
+1435206765 source:c:\users\godvalve\documents\github\demo\src\shader.cpp
 	"Shader.h"
 
 1434688644 source:c:\users\godvalve\documents\github\demo\targa.cpp
@@ -286,26 +275,70 @@
 	<string>
 	<fstream>
 
-1435188972 c:\users\godvalve\documents\github\demo\include\window.h
+1435632141 c:\users\godvalve\documents\github\demo\include\window.h
+	<windows.h>
+	<iostream>
+	<stdio.h>
+	<GL/glew.h>
+	<GL/wglew.h>
+	<GL/glext.h>
+	<glm/glm.hpp>
+	<glm/gtc/matrix_transform.hpp>
+	<glm/gtx/transform2.hpp>
 
-1435194132 source:c:\users\godvalve\documents\github\demo\resource.rc
+1435206765 source:c:\users\godvalve\documents\github\demo\resource.rc
 	<windows.h>
 	<commctrl.h>
 	<richedit.h>
 	"resource.h"
 
-1435205664 c:\users\godvalve\documents\github\demo\include\customskinnedbutton.h
+1435206765 c:\users\godvalve\documents\github\demo\include\customskinnedbutton.h
 	<windows.h>
 	"BitmapSkin.h"
 
-1435111524 c:\users\godvalve\documents\github\demo\include\bitmapskin.h
+1435206765 c:\users\godvalve\documents\github\demo\include\bitmapskin.h
 	<windows.h>
 	<iostream>
 	<string>
 
-1435111796 source:c:\users\godvalve\documents\github\demo\src\bitmapskin.cpp
+1435206765 source:c:\users\godvalve\documents\github\demo\src\bitmapskin.cpp
 	"BitmapSkin.h"
 
-1435185239 source:c:\users\godvalve\documents\github\demo\src\customskinnedbutton.cpp
+1435206765 source:c:\users\godvalve\documents\github\demo\src\customskinnedbutton.cpp
 	"CustomSkinnedButton.h"
+
+1435637326 source:c:\users\godvalve\documents\github\demo\src\launcher.cpp
+	"launcher.h"
+
+1435637323 c:\users\godvalve\documents\github\demo\include\launcher.h
+	"CustomSkinnedButton.h"
+	"BitmapSkin.h"
+	"../resource.h"
+	"openGLWindow.h"
+
+1435631943 source:c:\users\godvalve\documents\github\demo\src\window.cpp
+	"window.h"
+
+1435637611 c:\users\godvalve\documents\github\demo\include\openglwindow.h
+	<windows.h>
+	<iostream>
+	<stdio.h>
+	<GL/glew.h>
+	<GL/wglew.h>
+	<GL/glext.h>
+	"demoMain.h"
+	"../resource.h"
+
+1435637527 source:c:\users\godvalve\documents\github\demo\src\openglwindow.cpp
+	"openGLWindow.h"
+
+1435637129 c:\users\godvalve\documents\github\demo\include\demomain.h
+	"openGLWindow.h"
+	"Shader.h"
+	<glm/glm.hpp>
+	<glm/gtc/matrix_transform.hpp>
+	<glm/gtx/transform2.hpp>
+
+1435636474 source:c:\users\godvalve\documents\github\demo\src\demomain.cpp
+	"demoMain.h"
 
