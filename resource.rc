@@ -6,6 +6,7 @@
 #include <commctrl.h>
 #include <richedit.h>
 #include "resource.h"
+#include "version.h"
 
 
 
@@ -50,6 +51,10 @@ DLG_MAIN DIALOG 0, 0, 430, 266
 STYLE DS_3DLOOK | DS_CENTER | DS_SHELLFONT | WS_VISIBLE | WS_POPUP | WS_SYSMENU
 FONT 9, "Tahoma"
 {
+    LTEXT           UBUNTU_VERSION_STYLE, IDT_BUILDNUM, 257, 17, 33, 9, SS_LEFT, WS_EX_LEFT
+    LTEXT           FULLVERSION_STRING, IDT_VERNUM, 265, 9, 39, 9, SS_LEFT, WS_EX_LEFT
+    LTEXT           "Version:", IDT_VERSION, 236, 9, 26, 9, SS_LEFT, WS_EX_LEFT
+    LTEXT           "Build:", IDT_BUILD, 237, 17, 18, 9, SS_LEFT, WS_EX_LEFT
     CONTROL         "Run", IDRUN, "runBtnProc", 0x50020000, 294, 204, 42, 28, 0x00000000
     CONTROL         "Exit", IDEXIT, "exitBtnProc", 0x50020000, 347, 204, 46, 28, 0x00000000
     LISTBOX         IDC_RESOLUTION, 53, 117, 133, 73, WS_TABSTOP | WS_VSCROLL | LBS_NOINTEGRALHEIGHT | LBS_SORT | LBS_NOTIFY, WS_EX_LEFT

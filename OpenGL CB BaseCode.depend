@@ -200,7 +200,7 @@
 	"launcher.h"
 	"openGLWindow.h"
 
-1435206765 c:\users\godvalve\documents\github\demo\resource.h
+1435801282 c:\users\godvalve\documents\github\demo\resource.h
 
 1435206765 c:\users\godvalve\documents\github\demo\include\shader.h
 	<windows.h>
@@ -286,7 +286,7 @@
 	<glm/gtc/matrix_transform.hpp>
 	<glm/gtx/transform2.hpp>
 
-1435206765 source:c:\users\godvalve\documents\github\demo\resource.rc
+1435801282 source:c:\users\godvalve\documents\github\demo\resource.rc
 	<windows.h>
 	<commctrl.h>
 	<richedit.h>
@@ -307,7 +307,7 @@
 1435206765 source:c:\users\godvalve\documents\github\demo\src\customskinnedbutton.cpp
 	"CustomSkinnedButton.h"
 
-1435637326 source:c:\users\godvalve\documents\github\demo\src\launcher.cpp
+1435801322 source:c:\users\godvalve\documents\github\demo\src\launcher.cpp
 	"launcher.h"
 
 1435637323 c:\users\godvalve\documents\github\demo\include\launcher.h
@@ -319,7 +319,7 @@
 1435631943 source:c:\users\godvalve\documents\github\demo\src\window.cpp
 	"window.h"
 
-1435637611 c:\users\godvalve\documents\github\demo\include\openglwindow.h
+1435790984 c:\users\godvalve\documents\github\demo\include\openglwindow.h
 	<windows.h>
 	<iostream>
 	<stdio.h>
@@ -339,6 +339,8 @@
 	<glm/gtc/matrix_transform.hpp>
 	<glm/gtx/transform2.hpp>
 
-1435636474 source:c:\users\godvalve\documents\github\demo\src\demomain.cpp
+1435720409 source:c:\users\godvalve\documents\github\demo\src\demomain.cpp
 	"demoMain.h"
+
+1435799647 c:\users\godvalve\documents\github\demo\version.h
 

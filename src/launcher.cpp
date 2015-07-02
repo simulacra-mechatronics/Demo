@@ -16,9 +16,7 @@ bool createLauncherWindow(HINSTANCE hInstance){
     pDialogSkin = new BitmapSkin(hInstance, IDB_LauncherBackground);
 
     createButtons(hInstance);
-
     registerButtonWinClasses(hInstance);
-
 
     /* Display the Demo Challenge Launcher to get user's preferences for fullscreen and resolution */
     if(DialogBoxParam(hInstance, MAKEINTRESOURCE(DLG_MAIN), HWND_DESKTOP, DlgProc, 0) == FALSE)
@@ -232,6 +230,7 @@ BOOL CALLBACK DlgProc (HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
     static HWND hRunButtonWnd;                      // A handle to the 'Run' button
     static HWND hExitButtonWnd;                     // A handle to the 'Exit' button
+    static HBRUSH hbrBackground = NULL;
 
     switch (message)
     {
@@ -243,7 +242,6 @@ BOOL CALLBACK DlgProc (HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
             /* Select fullscreen option by default */
             HWND hCkBxFullscreen = GetDlgItem(hDlg, IDC_FULLSCREEN);
             PostMessage(hCkBxFullscreen, BM_SETCHECK,BST_CHECKED,0);
-
 
             HWND hResolutionList = GetDlgItem(hDlg, IDC_RESOLUTION);
             DWORD iDevNum	= 0;
@@ -385,28 +383,39 @@ BOOL CALLBACK DlgProc (HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
                     return TRUE;
                 }
 
-                /* Handle default Win32 keyboard logic for dialog windows (ESC key pressed) */
-                case IDCANCEL:
-                /* User pressed the 'Exit' button */
-                case IDEXIT:
+                case IDCANCEL:              // Handle default Win32 keyboard logic for dialog windows (ESC key pressed)
+
+                case IDEXIT:                // 'Exit' key pressed
                     EndDialog (hDlg, 0);    // User cancelled the dialog window
                     return TRUE;
             }
         }
         break;
 
-        // draw our bitmap
+
+        case WM_CTLCOLORSTATIC:
+            if ((HWND)lParam == GetDlgItem(hDlg, IDT_VERSION) || (HWND)lParam == GetDlgItem(hDlg, IDT_BUILD) || (HWND)lParam == GetDlgItem(hDlg, IDT_VERNUM) || (HWND)lParam == GetDlgItem(hDlg, IDT_BUILDNUM))
+            {
+                    SetBkMode((HDC)wParam,TRANSPARENT);
+                    SetTextColor((HDC)wParam, RGB(85,103,126));            // Set the colour of the text
+                    SetBkMode((HDC)wParam, TRANSPARENT);
+                    hbrBackground = CreateSolidBrush(RGB(7, 17, 32));
+                    return (LONG)hbrBackground;
+            }
+            break;
+
+
         case WM_PAINT:
         {
             BITMAP bm;                                  // Create a bitmap structure
             PAINTSTRUCT ps;                             // Create a paint structure
-            HDC hdc = BeginPaint(hDlg, &ps);         // Create a device context used for the dialog window
+            HDC hdc = BeginPaint(hDlg, &ps);            // Create a device context used for the dialog window
             HDC dcSkin = CreateCompatibleDC(hdc);       // Create a compatible memory device context to copy the color information from the bitmap to
             GetObject(pDialogSkin->getBitmapHandle(), sizeof(bm), &bm);      // Fill bitmap structure with information about the background image bitmap
             SelectObject(dcSkin, pDialogSkin->getBitmapHandle());            // Select this bitmap into the memory device context
             BitBlt(hdc, 0,0,pDialogSkin->getBitmapWidth(),pDialogSkin->getBitmapHeight(), dcSkin, 0, 0, SRCCOPY);   // Performs bit-block transfer of bitmap pixels to the memory device context
             DeleteDC(dcSkin);                           // Release the memory device context
-            EndPaint(hDlg, &ps);                     // End painting of dialog window
+            EndPaint(hDlg, &ps);                        // End painting of dialog window
         }
 
         case WM_MOUSEMOVE:                              // Mouse has been moved while over the dialog window area

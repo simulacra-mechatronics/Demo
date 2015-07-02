@@ -16,3 +16,7 @@
 #define IDC_FULLSCREEN                          1010
 #define IDRUN                                   40000
 #define IDEXIT                                  40001
+#define IDT_VERNUM                              40002
+#define IDT_VERSION                             40003
+#define IDT_BUILD                               40004
+#define IDT_BUILDNUM                            40005

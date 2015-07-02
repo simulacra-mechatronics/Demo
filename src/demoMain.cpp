@@ -1,5 +1,7 @@
 #include "demoMain.h"
 
+using namespace glm;
+
 glm::mat4 projectionMatrix;
 glm::mat4 viewMatrix;
 glm::mat4 modelMatrix;
@@ -16,7 +18,7 @@ LARGE_INTEGER TimeStart;	// Time of start.
 LARGE_INTEGER TimeCur;		// Current time.
 
 
-using namespace glm;
+
 
 
 //--------------------------------------------------------------------------------------
